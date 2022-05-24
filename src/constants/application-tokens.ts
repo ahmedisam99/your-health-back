@@ -1,0 +1,2 @@
+export const USER_ROLES_KEY = 'USER_ROLES_KEY';
+export const IS_PUBLIC_ROUTE_KEY = 'IS_PUBLIC_ROUTE_KEY';
