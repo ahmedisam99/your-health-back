@@ -26,6 +26,9 @@ export class Patient extends Document {
 
   @Prop({ type: String, required: true, trim: true })
   phoneNumber: string;
+
+  @Prop({ type: String, default: '', trim: true })
+  profilePicture: string;
 }
 
 export const PatientSchema = SchemaFactory.createForClass(Patient);
