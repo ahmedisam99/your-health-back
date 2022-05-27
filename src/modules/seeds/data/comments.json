@@ -3,126 +3,126 @@
     "_id": "6259f7dc78e6ee2c49611c00",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c00",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Doctor"
+    "doctorId": "6259f7dc78e6ee2c49611c00",
+    "patientId": null
   },
   {
     "_id": "6259f7dc78e6ee2c49611c01",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c00",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Doctor"
+    "doctorId": "6259f7dc78e6ee2c49611c00",
+    "patientId": null
   },
   {
     "_id": "6259f7dc78e6ee2c49611c02",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c00",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Doctor"
+    "doctorId": "6259f7dc78e6ee2c49611c00",
+    "patientId": null
   },
   {
     "_id": "6259f7dc78e6ee2c49611c03",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c01",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Doctor"
+    "doctorId": "6259f7dc78e6ee2c49611c00",
+    "patientId": null
   },
   {
     "_id": "6259f7dc78e6ee2c49611c04",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c01",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Doctor"
+    "doctorId": "6259f7dc78e6ee2c49611c00",
+    "patientId": null
   },
   {
     "_id": "6259f7dc78e6ee2c49611c05",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c01",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Doctor"
+    "doctorId": "6259f7dc78e6ee2c49611c00",
+    "patientId": null
   },
   {
     "_id": "6259f7dc78e6ee2c49611c06",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c02",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Doctor"
+    "doctorId": "6259f7dc78e6ee2c49611c00",
+    "patientId": null
   },
   {
     "_id": "6259f7dc78e6ee2c49611c07",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c02",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Doctor"
+    "doctorId": "6259f7dc78e6ee2c49611c00",
+    "patientId": null
   },
   {
     "_id": "6259f7dc78e6ee2c49611c08",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c02",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Doctor"
+    "doctorId": "6259f7dc78e6ee2c49611c00",
+    "patientId": null
   },
   {
     "_id": "6259f7dc78e6ee2c49611c09",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c00",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Patient"
+    "doctorId": null,
+    "patientId": "6259f7dc78e6ee2c49611c00"
   },
   {
     "_id": "6259f7dc78e6ee2c49611c10",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c00",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Patient"
+    "doctorId": null,
+    "patientId": "6259f7dc78e6ee2c49611c00"
   },
   {
     "_id": "6259f7dc78e6ee2c49611c11",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c00",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Patient"
+    "doctorId": null,
+    "patientId": "6259f7dc78e6ee2c49611c00"
   },
   {
     "_id": "6259f7dc78e6ee2c49611c12",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c01",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Patient"
+    "doctorId": null,
+    "patientId": "6259f7dc78e6ee2c49611c00"
   },
   {
     "_id": "6259f7dc78e6ee2c49611c13",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c01",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Patient"
+    "doctorId": null,
+    "patientId": "6259f7dc78e6ee2c49611c00"
   },
   {
     "_id": "6259f7dc78e6ee2c49611c14",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c01",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Patient"
+    "doctorId": null,
+    "patientId": "6259f7dc78e6ee2c49611c00"
   },
   {
     "_id": "6259f7dc78e6ee2c49611c15",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c02",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Patient"
+    "doctorId": null,
+    "patientId": "6259f7dc78e6ee2c49611c00"
   },
   {
     "_id": "6259f7dc78e6ee2c49611c16",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c02",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Patient"
+    "doctorId": null,
+    "patientId": "6259f7dc78e6ee2c49611c00"
   },
   {
     "_id": "6259f7dc78e6ee2c49611c17",
     "content": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
     "postId": "6259f7dc78e6ee2c49611c02",
-    "commenterId": "6259f7dc78e6ee2c49611c00",
-    "commenterModel": "Patient"
+    "doctorId": null,
+    "patientId": "6259f7dc78e6ee2c49611c00"
   }
 ]

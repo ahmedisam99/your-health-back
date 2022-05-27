@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  DefaultValuePipe,
+  Get,
+  ParseIntPipe,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { UserRoleEnum } from 'constants/user-role.enum';
 
 import { IsPublicRoute } from 'decorators/is-public.decorator';
@@ -34,5 +44,13 @@ export class DoctorController {
   @Get('profile')
   async getProfile(@Req() req): Promise<any> {
     return this.doctorService.getProfile(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Get('posts')
+  async getPosts(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+  ): Promise<any> {
+    return this.doctorService.getPosts(page);
   }
 }

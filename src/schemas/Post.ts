@@ -12,7 +12,7 @@ export class Post extends Document {
   content: string;
 
   @Prop({
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Doctor',
     required: true,
   })

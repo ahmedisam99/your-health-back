@@ -12,21 +12,25 @@ export class Comment extends Document {
   content: string;
 
   @Prop({
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Post',
     required: true,
   })
   postId: mongoose.Types.ObjectId;
 
   @Prop({
-    type: mongoose.Types.ObjectId,
-    refPath: 'commenterModel',
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Doctor',
+    default: null,
   })
-  commenterId: mongoose.Types.ObjectId;
+  doctorId: mongoose.Types.ObjectId;
 
-  @Prop({ type: String, required: true, enum: ['Doctor', 'Patient'] })
-  commenterModel: string;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Patient',
+    default: null,
+  })
+  patientId: mongoose.Types.ObjectId;
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);
