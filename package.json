@@ -6,10 +6,11 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "preinstall": "npm install -g pm2@5.2.0",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
-    "start": "pm2-runtime start pm2.config.json --env production",
+    "start": "pm2 start pm2.config.json --env production",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "lint": "eslint \"src/**/*.ts\" --fix",
