@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "name": "agadir-up",
+      "name": "your-health",
       "script": "./dist/main.js",
       "exec_mode": "cluster",
       "instances": "max",
