@@ -10,7 +10,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
-    "start": "node dist/main.js",
+    "start": "pm2 link u62uhuefup52hay pnqdm3fo63sduqd && pm2 start pm2.config.json --env production",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "lint": "eslint \"src/**/*.ts\" --fix",
