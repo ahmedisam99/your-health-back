@@ -12,6 +12,7 @@ import { Doctor } from 'schemas/doctor';
 import { CreateDoctorDto } from './dtos/create-doctor.dto';
 import { UserRoleEnum } from 'constants/user-role.enum';
 import { Post } from 'schemas/Post';
+import { CreatePostDto } from './dtos/create-post.dto';
 
 @Injectable()
 export class DoctorService {
@@ -209,6 +210,18 @@ export class DoctorService {
       ]);
 
       return posts;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async createPost(user: any, createPostDto: CreatePostDto): Promise<any> {
+    try {
+      await this.postModel.create({
+        doctorId: user._id,
+        content: createPostDto.content,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');

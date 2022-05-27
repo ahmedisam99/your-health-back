@@ -16,6 +16,7 @@ import { UserRoles } from 'decorators/user-roles.decorator';
 import { DoctorLocalAuthGuard } from 'guards/doctor-local-auth.guard';
 import { DoctorService } from './doctor.service';
 import { CreateDoctorDto } from './dtos/create-doctor.dto';
+import { CreatePostDto } from './dtos/create-post.dto';
 
 @Controller('doctor')
 export class DoctorController {
@@ -52,5 +53,14 @@ export class DoctorController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
   ): Promise<any> {
     return this.doctorService.getPosts(page);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Post('posts')
+  async createPost(
+    @Req() req,
+    @Body() createPostDto: CreatePostDto,
+  ): Promise<any> {
+    return this.doctorService.createPost(req.user, createPostDto);
   }
 }
