@@ -74,11 +74,16 @@ export class PatientService {
 
   async getMe(user: any): Promise<any> {
     try {
-      return await this.patientModel.findById(user._id, [
+      const patient = await this.patientModel.findById(user._id, [
         '_id',
         'name',
         'profilePicture',
       ]);
+
+      return {
+        ...user,
+        ...patient.toObject(),
+      };
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
