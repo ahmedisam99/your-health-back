@@ -108,14 +108,6 @@ export class DoctorService {
 
   async getPosts(page: number): Promise<any> {
     try {
-      // return await this.doctorModel.find({}, [], {
-      //   skip: page * 10,
-      //   limit: 10,
-      //   sort: {
-      //     createdAt: -1,
-      //   },
-      // });
-
       const posts = this.postModel.aggregate([
         {
           $lookup: {
