@@ -1,4 +1,4 @@
-import { Logger, VersioningType } from '@nestjs/common';
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import * as morgan from 'morgan';
 import helmet from 'helmet';
@@ -66,6 +66,13 @@ async function bootstrap() {
   app.useGlobalGuards(
     new JwtAuthGuard(reflector),
     new UserRolesGuard(reflector),
+  );
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+    }),
   );
 
   await app.listen(PORT, () => {
