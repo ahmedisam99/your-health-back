@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, PipelineStage } from 'mongoose';
 import {
   ConflictException,
   Injectable,
@@ -114,7 +114,7 @@ export class DoctorService {
 
   async getPosts(page: number): Promise<any> {
     try {
-      const posts = this.postModel.aggregate([
+      const aggregationPipeLine: PipelineStage[] = [
         {
           $lookup: {
             from: 'doctors',
@@ -201,20 +201,19 @@ export class DoctorService {
             comments: true,
           },
         },
-        {
-          $sort: {
-            createdAt: -1,
-          },
-        },
-        {
-          $skip: (page - 1) * 10,
-        },
-        {
-          $limit: 10,
-        },
-      ]);
+      ];
 
-      return posts;
+      const posts = await this.postModel
+        .aggregate(aggregationPipeLine)
+        .skip((page - 1) * 10)
+        .limit(10)
+        .sort({ createdAt: -1 });
+
+      const total = await this.postModel
+        .aggregate(aggregationPipeLine)
+        .count('total');
+
+      return { posts, total: total?.[0]?.total || 0 };
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
