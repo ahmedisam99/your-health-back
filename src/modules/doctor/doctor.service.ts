@@ -201,13 +201,17 @@ export class DoctorService {
             comments: true,
           },
         },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
       ];
 
       const posts = await this.postModel
         .aggregate(aggregationPipeLine)
         .skip((page - 1) * 10)
-        .limit(10)
-        .sort({ createdAt: -1 });
+        .limit(10);
 
       const total = await this.postModel
         .aggregate(aggregationPipeLine)
