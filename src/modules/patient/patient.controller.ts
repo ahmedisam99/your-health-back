@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  DefaultValuePipe,
+  Get,
+  ParseIntPipe,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 
 import { PatientLocalAuthGuard } from 'guards/patient-local-auth.guard';
 import { IsPublicRoute } from 'decorators/is-public.decorator';
@@ -34,5 +44,13 @@ export class PatientController {
   @Get('profile')
   async getProfile(@Req() req): Promise<any> {
     return this.patientService.getProfile(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Get('posts')
+  async getPosts(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+  ): Promise<any> {
+    return this.patientService.getPosts(page);
   }
 }

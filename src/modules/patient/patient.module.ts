@@ -3,6 +3,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { Patient, PatientSchema } from 'schemas/patient';
+import { Post, PostSchema } from 'schemas/Post';
+import { Comment, CommentSchema } from 'schemas/Comment';
 import { hashPassword } from 'utils/hash-password.util';
 import { PatientController } from './patient.controller';
 import { PatientService } from './patient.service';
@@ -34,6 +36,14 @@ import { PatientService } from './patient.service';
 
           return schema;
         },
+      },
+      {
+        name: Post.name,
+        useFactory: () => PostSchema,
+      },
+      {
+        name: Comment.name,
+        useFactory: () => CommentSchema,
       },
     ]),
   ],

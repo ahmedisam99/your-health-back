@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, PipelineStage } from 'mongoose';
 import {
   ConflictException,
   Injectable,
@@ -7,7 +7,9 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
+
 import { Patient } from 'schemas/patient';
+import { Post } from 'schemas/Post';
 import { CreatePatientDto } from './dtos/create-patient.dto';
 import { UserRoleEnum } from 'constants/user-role.enum';
 
@@ -20,6 +22,9 @@ export class PatientService {
 
     @InjectModel(Patient.name)
     private patientModel: Model<Patient>,
+
+    @InjectModel(Post.name)
+    private postModel: Model<Post>,
   ) {}
 
   async getForJwtValidation(_id: string): Promise<any> {
@@ -99,6 +104,118 @@ export class PatientService {
         'phoneNumber',
         'profilePicture',
       ]);
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async getPosts(page: number): Promise<any> {
+    try {
+      const aggregationPipeLine: PipelineStage[] = [
+        {
+          $lookup: {
+            from: 'doctors',
+            localField: 'doctorId',
+            foreignField: '_id',
+            as: 'doctor',
+            pipeline: [
+              {
+                $project: {
+                  _id: true,
+                  name: true,
+                  profilePicture: true,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $lookup: {
+            from: 'comments',
+            localField: '_id',
+            foreignField: 'postId',
+            as: 'comments',
+            pipeline: [
+              {
+                $lookup: {
+                  from: 'doctors',
+                  localField: 'doctorId',
+                  foreignField: '_id',
+                  as: 'doctor',
+                  pipeline: [
+                    {
+                      $project: {
+                        _id: true,
+                        name: true,
+                        profilePicture: true,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                $lookup: {
+                  from: 'patients',
+                  localField: 'patientId',
+                  foreignField: '_id',
+                  as: 'patient',
+                  pipeline: [
+                    {
+                      $project: {
+                        _id: true,
+                        name: true,
+                        profilePicture: true,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                $project: {
+                  _id: true,
+                  content: true,
+                  createdAt: true,
+                  doctor: {
+                    $arrayElemAt: ['$doctor', 0],
+                  },
+                  patient: {
+                    $arrayElemAt: ['$patient', 0],
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          $project: {
+            _id: true,
+            doctor: {
+              $arrayElemAt: ['$doctor', 0],
+            },
+            content: true,
+            likes: true,
+            createdAt: true,
+            comments: true,
+          },
+        },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      ];
+
+      const posts = await this.postModel
+        .aggregate(aggregationPipeLine)
+        .skip((page - 1) * 10)
+        .limit(10);
+
+      const total = await this.postModel
+        .aggregate(aggregationPipeLine)
+        .count('total');
+
+      return { posts, total: total?.[0]?.total || 0 };
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
