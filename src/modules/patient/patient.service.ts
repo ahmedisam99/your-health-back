@@ -325,4 +325,20 @@ export class PatientService {
       throw new InternalServerErrorException('حدث خطأ ما');
     }
   }
+
+  async getDoctors(): Promise<any> {
+    try {
+      const doctors = await this.doctorModel.find({}, [
+        '_id',
+        'name',
+        'profilePicture',
+        'specialization',
+      ]);
+
+      return doctors;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
 }

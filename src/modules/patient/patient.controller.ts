@@ -85,4 +85,10 @@ export class PatientController {
   async getMyOrders(@Req() req): Promise<any> {
     return this.patientService.getMyOrders(req.user);
   }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Get('doctors')
+  async getDoctors(): Promise<any> {
+    return this.patientService.getDoctors();
+  }
 }
