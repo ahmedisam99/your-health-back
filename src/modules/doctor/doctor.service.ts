@@ -236,10 +236,115 @@ export class DoctorService {
 
   async createPost(user: any, createPostDto: CreatePostDto): Promise<any> {
     try {
-      await this.postModel.create({
+      const _post = await this.postModel.create({
         doctorId: user._id,
         content: createPostDto.content,
       });
+
+      const post =
+        (
+          await this.postModel.aggregate([
+            {
+              $match: {
+                _id: _post._id,
+              },
+            },
+            {
+              $lookup: {
+                from: 'doctors',
+                localField: 'doctorId',
+                foreignField: '_id',
+                as: 'doctor',
+                pipeline: [
+                  {
+                    $project: {
+                      _id: true,
+                      name: true,
+                      profilePicture: true,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $lookup: {
+                from: 'comments',
+                localField: '_id',
+                foreignField: 'postId',
+                as: 'comments',
+                pipeline: [
+                  {
+                    $lookup: {
+                      from: 'doctors',
+                      localField: 'doctorId',
+                      foreignField: '_id',
+                      as: 'doctor',
+                      pipeline: [
+                        {
+                          $project: {
+                            _id: true,
+                            name: true,
+                            profilePicture: true,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    $lookup: {
+                      from: 'patients',
+                      localField: 'patientId',
+                      foreignField: '_id',
+                      as: 'patient',
+                      pipeline: [
+                        {
+                          $project: {
+                            _id: true,
+                            name: true,
+                            profilePicture: true,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                  { $sort: { createdAt: -1 } },
+                  {
+                    $project: {
+                      _id: true,
+                      content: true,
+                      createdAt: true,
+                      doctor: {
+                        $arrayElemAt: ['$doctor', 0],
+                      },
+                      patient: {
+                        $arrayElemAt: ['$patient', 0],
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $project: {
+                _id: true,
+                doctor: {
+                  $arrayElemAt: ['$doctor', 0],
+                },
+                content: true,
+                likes: true,
+                createdAt: true,
+                comments: true,
+              },
+            },
+            {
+              $sort: {
+                createdAt: -1,
+              },
+            },
+          ])
+        )?.[0] || {};
+
+      return post;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
