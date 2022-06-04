@@ -178,6 +178,7 @@ export class DoctorService {
                   ],
                 },
               },
+              { $sort: { createdAt: -1 } },
               {
                 $project: {
                   _id: true,

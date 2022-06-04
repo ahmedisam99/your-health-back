@@ -171,6 +171,7 @@ export class PatientService {
                   ],
                 },
               },
+              { $sort: { createdAt: -1 } },
               {
                 $project: {
                   _id: true,
