@@ -15,6 +15,7 @@ import { IsPublicRoute } from 'decorators/is-public.decorator';
 import { UserRoles } from 'decorators/user-roles.decorator';
 import { DoctorLocalAuthGuard } from 'guards/doctor-local-auth.guard';
 import { DoctorService } from './doctor.service';
+import { CreateCommentDto } from './dtos/create-comment.dto';
 import { CreateDoctorDto } from './dtos/create-doctor.dto';
 import { CreatePostDto } from './dtos/create-post.dto';
 
@@ -62,5 +63,14 @@ export class DoctorController {
     @Body() createPostDto: CreatePostDto,
   ): Promise<any> {
     return this.doctorService.createPost(req.user, createPostDto);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Post('comments')
+  async createComment(
+    @Req() req,
+    @Body() createCommentDto: CreateCommentDto,
+  ): Promise<any> {
+    return this.doctorService.createComment(req.user, createCommentDto);
   }
 }
