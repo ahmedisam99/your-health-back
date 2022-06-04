@@ -20,6 +20,9 @@ export class Patient extends Document {
   })
   email: string;
 
+  @Prop({ type: String, trim: true })
+  address: string;
+
   @Prop({ type: String, required: true })
   password: string;
 
