@@ -8,6 +8,7 @@ import { Comment, CommentSchema } from 'schemas/Comment';
 import { hashPassword } from 'utils/hash-password.util';
 import { DoctorController } from './doctor.controller';
 import { DoctorService } from './doctor.service';
+import { Order, OrderSchema } from 'schemas/Order';
 
 @Module({
   imports: [
@@ -44,6 +45,10 @@ import { DoctorService } from './doctor.service';
       {
         name: Comment.name,
         useFactory: () => CommentSchema,
+      },
+      {
+        name: Order.name,
+        useFactory: () => OrderSchema,
       },
     ]),
   ],

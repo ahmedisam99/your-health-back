@@ -15,6 +15,7 @@ import { Post } from 'schemas/Post';
 import { Comment } from 'schemas/Comment';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { CreateCommentDto } from './dtos/create-comment.dto';
+import { Order } from 'schemas/Order';
 
 @Injectable()
 export class DoctorService {
@@ -31,6 +32,9 @@ export class DoctorService {
 
     @InjectModel(Comment.name)
     private commentModel: Model<Comment>,
+
+    @InjectModel(Order.name)
+    private orderModel: Model<Order>,
   ) {}
 
   async getForJwtValidation(_id: string): Promise<any> {
@@ -269,6 +273,49 @@ export class DoctorService {
 
         await post.save();
       }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async getOrders(user: any): Promise<any> {
+    try {
+      const orders = await this.orderModel.aggregate([
+        {
+          $match: {
+            doctorId: user._id,
+          },
+        },
+        {
+          $lookup: {
+            from: 'patients',
+            localField: 'patientId',
+            foreignField: '_id',
+            as: 'patient',
+            pipeline: [
+              {
+                $project: {
+                  _id: true,
+                  name: true,
+                  profilePicture: true,
+                  address: true,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $project: {
+            _id: true,
+            content: true,
+            patient: { $arrayElemAt: ['$patient', 0] },
+            createdAt: true,
+          },
+        },
+      ]);
+
+      return orders;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
