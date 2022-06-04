@@ -16,6 +16,7 @@ import { UserRoleEnum } from 'constants/user-role.enum';
 import { CreateCommentDto } from 'modules/doctor/dtos/create-comment.dto';
 import { CreateOrderDto } from './dtos/create-order.dto';
 import { Order } from 'schemas/Order';
+import { Doctor } from 'schemas/doctor';
 
 @Injectable()
 export class PatientService {
@@ -26,6 +27,9 @@ export class PatientService {
 
     @InjectModel(Patient.name)
     private patientModel: Model<Patient>,
+
+    @InjectModel(Doctor.name)
+    private doctorModel: Model<Doctor>,
 
     @InjectModel(Post.name)
     private postModel: Model<Post>,
@@ -274,6 +278,48 @@ export class PatientService {
       });
 
       return order;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async getMyOrders(user: any): Promise<any> {
+    try {
+      const orders = await this.orderModel.aggregate([
+        {
+          $match: {
+            patientId: user._id,
+          },
+        },
+        {
+          $lookup: {
+            from: 'doctors',
+            localField: 'doctorId',
+            foreignField: '_id',
+            as: 'doctor',
+            pipeline: [
+              {
+                $project: {
+                  _id: true,
+                  name: true,
+                  profilePicture: true,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $project: {
+            _id: true,
+            content: true,
+            doctor: { $arrayElemAt: ['$doctor', 0] },
+            createdAt: true,
+          },
+        },
+      ]);
+
+      return orders;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
