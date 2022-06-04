@@ -1,11 +1,47 @@
 [
   {
     "_id": "6259f7dc78e6ee2c49611c00",
-    "name": "أحمد عصام عبد اللطيف",
-    "email": "ahmedisam9922@gmail.com",
+    "name": "أحمد سمير الكحلوت",
+    "email": "ahmed@gmail.com",
     "password": "doc123456",
     "phoneNumber": "+970567207590",
     "specialization": "أخصائي باطنة",
-    "patientsIds": ["6259f7dc78e6ee2c49611c00"]
+    "profilePicture": "https://your-health.today/static/media/d2.3968b22e.png",
+    "patientsIds": [
+      "6259f7dc78e6ee2c49611c00",
+      "6259f7dc78e6ee2c49611c01",
+      "6259f7dc78e6ee2c49611c02",
+      "6259f7dc78e6ee2c49611c03"
+    ]
+  },
+  {
+    "_id": "6259f7dc78e6ee2c49611c01",
+    "name": "منى محمد الجزار",
+    "email": "mona@gmail.com",
+    "password": "doc123456",
+    "phoneNumber": "+970592207599",
+    "specialization": "أخصائي عظام",
+    "profilePicture": "https://your-health.today/static/media/d1.1680688b.png",
+    "patientsIds": ["6259f7dc78e6ee2c49611c00", "6259f7dc78e6ee2c49611c03"]
+  },
+  {
+    "_id": "6259f7dc78e6ee2c49611c02",
+    "name": "غادة عبد الرحمن البشتي",
+    "email": "ghada@gmail.com",
+    "password": "doc123456",
+    "phoneNumber": "+970592648755",
+    "specialization": "أمراض الدم",
+    "profilePicture": "https://your-health.today/static/media/d5.a4284dd4.png",
+    "patientsIds": ["6259f7dc78e6ee2c49611c00", "6259f7dc78e6ee2c49611c01"]
+  },
+  {
+    "_id": "6259f7dc78e6ee2c49611c03",
+    "name": "محمد منير أبو الكاس",
+    "email": "moh@gmail.com",
+    "password": "doc123456",
+    "phoneNumber": "+970568548920",
+    "specialization": "مسالك بولية",
+    "profilePicture": "https://your-health.today/static/media/d4.3757bc78.png",
+    "patientsIds": ["6259f7dc78e6ee2c49611c00", "6259f7dc78e6ee2c49611c02"]
   }
 ]
