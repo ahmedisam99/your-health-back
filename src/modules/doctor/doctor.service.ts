@@ -259,4 +259,19 @@ export class DoctorService {
       throw new InternalServerErrorException('حدث خطأ ما');
     }
   }
+
+  async likePost(postId: string) {
+    try {
+      const post = await this.postModel.findById(postId);
+
+      if (post) {
+        post.likes += 1;
+
+        await post.save();
+      }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
 }

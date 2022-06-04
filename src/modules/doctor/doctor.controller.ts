@@ -73,4 +73,10 @@ export class DoctorController {
   ): Promise<any> {
     return this.doctorService.createComment(req.user, createCommentDto);
   }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Get('likes')
+  async likePost(@Query('postId') postId: string): Promise<any> {
+    return this.doctorService.likePost(postId);
+  }
 }
