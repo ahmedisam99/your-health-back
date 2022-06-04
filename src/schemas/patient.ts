@@ -20,7 +20,7 @@ export class Patient extends Document {
   })
   email: string;
 
-  @Prop({ type: String, trim: true })
+  @Prop({ type: String, trim: true, default: '' })
   address: string;
 
   @Prop({ type: String, required: true })
