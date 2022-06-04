@@ -333,6 +333,8 @@ export class PatientService {
         'name',
         'profilePicture',
         'specialization',
+        'email',
+        'phoneNumber',
       ]);
 
       return doctors;
