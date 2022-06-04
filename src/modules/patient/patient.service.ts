@@ -14,6 +14,8 @@ import { Comment } from 'schemas/Comment';
 import { CreatePatientDto } from './dtos/create-patient.dto';
 import { UserRoleEnum } from 'constants/user-role.enum';
 import { CreateCommentDto } from 'modules/doctor/dtos/create-comment.dto';
+import { CreateOrderDto } from './dtos/create-order.dto';
+import { Order } from 'schemas/Order';
 
 @Injectable()
 export class PatientService {
@@ -30,6 +32,9 @@ export class PatientService {
 
     @InjectModel(Comment.name)
     private commentModel: Model<Comment>,
+
+    @InjectModel(Order.name)
+    private orderModel: Model<Order>,
   ) {}
 
   async getForJwtValidation(_id: string): Promise<any> {
@@ -255,6 +260,20 @@ export class PatientService {
 
         await post.save();
       }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async createOrder(user: any, createOrderDto: CreateOrderDto): Promise<any> {
+    try {
+      const order = await this.orderModel.create({
+        patientId: user._id,
+        ...createOrderDto,
+      });
+
+      return order;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
