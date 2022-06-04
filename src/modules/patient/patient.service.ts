@@ -242,11 +242,69 @@ export class PatientService {
     createCommentDto: CreateCommentDto,
   ): Promise<any> {
     try {
-      const comment = await this.commentModel.create({
+      const _comment = await this.commentModel.create({
         postId: createCommentDto.postId,
         patientId: user._id,
         content: createCommentDto.content,
       });
+
+      const comment =
+        (
+          await this.commentModel.aggregate([
+            {
+              $match: {
+                _id: _comment._id,
+              },
+            },
+            {
+              $lookup: {
+                from: 'doctors',
+                localField: 'doctorId',
+                foreignField: '_id',
+                as: 'doctor',
+                pipeline: [
+                  {
+                    $project: {
+                      _id: true,
+                      name: true,
+                      profilePicture: true,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $lookup: {
+                from: 'patients',
+                localField: 'patientId',
+                foreignField: '_id',
+                as: 'patient',
+                pipeline: [
+                  {
+                    $project: {
+                      _id: true,
+                      name: true,
+                      profilePicture: true,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $project: {
+                _id: true,
+                content: true,
+                createdAt: true,
+                doctor: {
+                  $arrayElemAt: ['$doctor', 0],
+                },
+                patient: {
+                  $arrayElemAt: ['$patient', 0],
+                },
+              },
+            },
+          ])
+        )?.[0] || {};
 
       return comment;
     } catch (error) {
