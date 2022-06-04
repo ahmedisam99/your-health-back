@@ -10,8 +10,10 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { Patient } from 'schemas/patient';
 import { Post } from 'schemas/Post';
+import { Comment } from 'schemas/Comment';
 import { CreatePatientDto } from './dtos/create-patient.dto';
 import { UserRoleEnum } from 'constants/user-role.enum';
+import { CreateCommentDto } from 'modules/doctor/dtos/create-comment.dto';
 
 @Injectable()
 export class PatientService {
@@ -25,6 +27,9 @@ export class PatientService {
 
     @InjectModel(Post.name)
     private postModel: Model<Post>,
+
+    @InjectModel(Comment.name)
+    private commentModel: Model<Comment>,
   ) {}
 
   async getForJwtValidation(_id: string): Promise<any> {
@@ -217,6 +222,24 @@ export class PatientService {
         .count('total');
 
       return { posts, total: total?.[0]?.total || 0 };
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async createComment(
+    user: any,
+    createCommentDto: CreateCommentDto,
+  ): Promise<any> {
+    try {
+      const comment = await this.commentModel.create({
+        postId: createCommentDto.postId,
+        patientId: user._id,
+        content: createCommentDto.content,
+      });
+
+      return comment;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');

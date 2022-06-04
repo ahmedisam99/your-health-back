@@ -16,6 +16,7 @@ import { PatientService } from './patient.service';
 import { CreatePatientDto } from './dtos/create-patient.dto';
 import { UserRoles } from 'decorators/user-roles.decorator';
 import { UserRoleEnum } from 'constants/user-role.enum';
+import { CreateCommentDto } from 'modules/doctor/dtos/create-comment.dto';
 
 @Controller('patient')
 export class PatientController {
@@ -52,5 +53,14 @@ export class PatientController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
   ): Promise<any> {
     return this.patientService.getPosts(page);
+  }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Post('comments')
+  async createComment(
+    @Req() req,
+    @Body() createCommentDto: CreateCommentDto,
+  ): Promise<any> {
+    return this.patientService.createComment(req.user, createCommentDto);
   }
 }
