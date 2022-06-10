@@ -486,4 +486,42 @@ export class DoctorService {
       throw new InternalServerErrorException('حدث خطأ ما');
     }
   }
+
+  async getPatients(user: any): Promise<any> {
+    const doctor = await this.doctorModel.aggregate([
+      {
+        $match: {
+          _id: user._id,
+        },
+      },
+      {
+        $lookup: {
+          from: 'patients',
+          localField: 'patientsIds',
+          foreignField: '_id',
+          as: 'patients',
+          pipeline: [
+            {
+              $project: {
+                _id: true,
+                name: true,
+                profilePicture: true,
+                address: true,
+                email: true,
+                phoneNumber: true,
+              },
+            },
+          ],
+        },
+      },
+      {
+        $project: {
+          _id: true,
+          patients: true,
+        },
+      },
+    ]);
+
+    return doctor?.[0]?.patients || [];
+  }
 }
