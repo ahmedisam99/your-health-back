@@ -524,4 +524,51 @@ export class DoctorService {
 
     return doctor?.[0]?.patients || [];
   }
+
+  async removePatient(user: any, patientId: string) {
+    try {
+      const doctor = await this.doctorModel.findById(user._id);
+
+      if (doctor) {
+        doctor.patientsIds = doctor.patientsIds.filter(
+          (id) => id.toString() !== patientId,
+        );
+
+        await doctor.save();
+      }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async cancelOrder(user: any, orderId: string) {
+    try {
+      const order = await this.orderModel.findById(orderId);
+
+      if (order?.doctorId?.toString() === user?._id?.toString()) {
+        await order.remove();
+      }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async approveOrder(user: any, orderId: string) {
+    try {
+      const order = await this.orderModel.findById(orderId);
+      const doctor = await this.doctorModel.findById(user._id);
+
+      if (order?.doctorId?.toString() === doctor?._id?.toString()) {
+        doctor.patientsIds = [...doctor.patientsIds, order.patientId];
+
+        await doctor.save();
+        await order.remove();
+      }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
 }

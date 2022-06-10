@@ -3,6 +3,7 @@ import {
   Controller,
   DefaultValuePipe,
   Get,
+  Param,
   ParseIntPipe,
   Post,
   Query,
@@ -84,6 +85,15 @@ export class PatientController {
   @Get('orders')
   async getMyOrders(@Req() req): Promise<any> {
     return this.patientService.getMyOrders(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Get('orders/:orderId/cancel')
+  async cancelOrder(
+    @Req() req,
+    @Param('orderId') orderId: string,
+  ): Promise<any> {
+    return this.patientService.cancelOrder(req.user, orderId);
   }
 
   @UserRoles(UserRoleEnum.Patient)

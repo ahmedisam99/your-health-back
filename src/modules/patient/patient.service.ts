@@ -404,4 +404,17 @@ export class PatientService {
       throw new InternalServerErrorException('حدث خطأ ما');
     }
   }
+
+  async cancelOrder(user: any, orderId: string) {
+    try {
+      const order = await this.orderModel.findById(orderId);
+
+      if (order?.patientId?.toString() === user?._id?.toString()) {
+        await order.remove();
+      }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
 }

@@ -3,6 +3,7 @@ import {
   Controller,
   DefaultValuePipe,
   Get,
+  Param,
   ParseIntPipe,
   Post,
   Query,
@@ -87,8 +88,35 @@ export class DoctorController {
   }
 
   @UserRoles(UserRoleEnum.Doctor)
+  @Get('orders/:orderId/cancel')
+  async cancelOrder(
+    @Req() req,
+    @Param('orderId') orderId: string,
+  ): Promise<any> {
+    return this.doctorService.cancelOrder(req.user, orderId);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Get('orders/:orderId/approve')
+  async approveOrder(
+    @Req() req,
+    @Param('orderId') orderId: string,
+  ): Promise<any> {
+    return this.doctorService.approveOrder(req.user, orderId);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
   @Get('patients')
   async getPatients(@Req() req): Promise<any> {
     return this.doctorService.getPatients(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Get('patients/:patientId/remove')
+  async removePatient(
+    @Req() req,
+    @Param('patientId') patientId: string,
+  ): Promise<any> {
+    return this.doctorService.removePatient(req.user, patientId);
   }
 }
