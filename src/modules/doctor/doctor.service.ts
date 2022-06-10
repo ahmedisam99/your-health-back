@@ -463,6 +463,8 @@ export class DoctorService {
                   name: true,
                   profilePicture: true,
                   address: true,
+                  email: true,
+                  phoneNumber: true,
                 },
               },
             ],
