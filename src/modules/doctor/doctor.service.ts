@@ -571,4 +571,35 @@ export class DoctorService {
       throw new InternalServerErrorException('حدث خطأ ما');
     }
   }
+
+  async getReports(user: any) {
+    try {
+      const numOfOrders = await this.orderModel.countDocuments({
+        doctorId: user._id,
+      });
+
+      const numOfPatiens = await this.doctorModel.aggregate([
+        {
+          $match: {
+            _id: user._id,
+          },
+        },
+        {
+          $project: {
+            numOfPatients: {
+              $size: '$patientsIds',
+            },
+          },
+        },
+      ]);
+
+      return {
+        numOfOrders: numOfOrders,
+        numOfPatiens: numOfPatiens?.[0]?.numOfPatients || 0,
+      };
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
 }

@@ -119,4 +119,10 @@ export class DoctorController {
   ): Promise<any> {
     return this.doctorService.removePatient(req.user, patientId);
   }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Get('reports')
+  async getReports(@Req() req): Promise<any> {
+    return this.doctorService.getReports(req.user);
+  }
 }
