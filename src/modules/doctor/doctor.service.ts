@@ -93,6 +93,7 @@ export class DoctorService {
         '_id',
         'name',
         'profilePicture',
+        'email',
       ]);
 
       return {
