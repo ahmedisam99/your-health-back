@@ -58,6 +58,15 @@ export class DoctorController {
   }
 
   @UserRoles(UserRoleEnum.Doctor)
+  @Get('my-posts')
+  async getMyPosts(
+    @Req() req,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+  ): Promise<any> {
+    return this.doctorService.getMyPosts(req.user, page);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
   @Post('posts')
   async createPost(
     @Req() req,
