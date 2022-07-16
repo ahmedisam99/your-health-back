@@ -21,6 +21,7 @@ import { CreateCommentDto } from './dtos/create-comment.dto';
 import { CreateDoctorDto } from './dtos/create-doctor.dto';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
+import { UpdateProfileDto } from './dtos/update-profile.dto';
 
 @Controller('doctor')
 export class DoctorController {
@@ -49,6 +50,15 @@ export class DoctorController {
   @Get('profile')
   async getProfile(@Req() req): Promise<any> {
     return this.doctorService.getProfile(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Put('profile')
+  async updateProfile(
+    @Req() req,
+    @Body() updateProfileDto: UpdateProfileDto,
+  ): Promise<any> {
+    return this.doctorService.updateProfile(req.user, updateProfileDto);
   }
 
   @UserRoles(UserRoleEnum.Doctor)
