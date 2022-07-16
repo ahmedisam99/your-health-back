@@ -6,6 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   Query,
   Req,
   UseGuards,
@@ -19,6 +20,7 @@ import { DoctorService } from './doctor.service';
 import { CreateCommentDto } from './dtos/create-comment.dto';
 import { CreateDoctorDto } from './dtos/create-doctor.dto';
 import { CreatePostDto } from './dtos/create-post.dto';
+import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
 
 @Controller('doctor')
 export class DoctorController {
@@ -47,6 +49,18 @@ export class DoctorController {
   @Get('profile')
   async getProfile(@Req() req): Promise<any> {
     return this.doctorService.getProfile(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Put('profile-picture')
+  async updateProfilePicture(
+    @Req() req,
+    @Body() updateProfilePictureDto: UpdateProfilePictureDto,
+  ): Promise<any> {
+    return this.doctorService.updateProfilePicture(
+      req.user,
+      updateProfilePictureDto,
+    );
   }
 
   @UserRoles(UserRoleEnum.Doctor)
