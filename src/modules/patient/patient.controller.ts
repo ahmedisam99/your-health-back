@@ -6,6 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   Query,
   Req,
   UseGuards,
@@ -19,6 +20,8 @@ import { UserRoles } from 'decorators/user-roles.decorator';
 import { UserRoleEnum } from 'constants/user-role.enum';
 import { CreateCommentDto } from 'modules/doctor/dtos/create-comment.dto';
 import { CreateOrderDto } from './dtos/create-order.dto';
+import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
+import { UpdateProfileDto } from './dtos/update-profile.dto';
 
 @Controller('patient')
 export class PatientController {
@@ -47,6 +50,27 @@ export class PatientController {
   @Get('profile')
   async getProfile(@Req() req): Promise<any> {
     return this.patientService.getProfile(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Put('profile')
+  async updateProfile(
+    @Req() req,
+    @Body() updateProfileDto: UpdateProfileDto,
+  ): Promise<any> {
+    return this.patientService.updateProfile(req.user, updateProfileDto);
+  }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Put('profile-picture')
+  async updateProfilePicture(
+    @Req() req,
+    @Body() updateProfilePictureDto: UpdateProfilePictureDto,
+  ): Promise<any> {
+    return this.patientService.updateProfilePicture(
+      req.user,
+      updateProfilePictureDto,
+    );
   }
 
   @UserRoles(UserRoleEnum.Patient)

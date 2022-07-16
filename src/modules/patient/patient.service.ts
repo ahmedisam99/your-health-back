@@ -17,6 +17,8 @@ import { CreateCommentDto } from 'modules/doctor/dtos/create-comment.dto';
 import { CreateOrderDto } from './dtos/create-order.dto';
 import { Order } from 'schemas/Order';
 import { Doctor } from 'schemas/doctor';
+import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
+import { UpdateProfileDto } from './dtos/update-profile.dto';
 
 @Injectable()
 export class PatientService {
@@ -119,6 +121,37 @@ export class PatientService {
         'phoneNumber',
         'profilePicture',
       ]);
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async updateProfile(
+    user: any,
+    updateProfileDto: UpdateProfileDto,
+  ): Promise<any> {
+    try {
+      await this.patientModel.updateOne({ _id: user._id }, updateProfileDto);
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async updateProfilePicture(
+    user: any,
+    updateProfilePictureDto: UpdateProfilePictureDto,
+  ): Promise<any> {
+    try {
+      const pat = await this.patientModel.findById(user._id, [
+        'profilePicture',
+      ]);
+
+      if (!pat) throw new InternalServerErrorException();
+
+      pat.profilePicture = updateProfilePictureDto.image;
+      await pat.save();
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
