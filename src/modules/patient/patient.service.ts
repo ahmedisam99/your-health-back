@@ -97,6 +97,7 @@ export class PatientService {
         '_id',
         'name',
         'profilePicture',
+        'email',
       ]);
 
       return {
