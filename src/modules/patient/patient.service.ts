@@ -77,7 +77,7 @@ export class PatientService {
 
       return {
         accessToken: this.jwtService.sign({
-          id: patient._id,
+          _id: patient._id,
           role: UserRoleEnum.Patient,
         }),
       };

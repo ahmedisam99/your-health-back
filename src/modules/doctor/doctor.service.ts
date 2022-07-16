@@ -75,7 +75,7 @@ export class DoctorService {
 
       return {
         accessToken: this.jwtService.sign({
-          id: doctor._id,
+          _id: doctor._id,
           role: UserRoleEnum.Doctor,
         }),
       };
