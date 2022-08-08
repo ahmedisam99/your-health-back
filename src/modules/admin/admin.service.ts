@@ -44,6 +44,20 @@ export class AdminService {
     }
   }
 
+  async getMe(user: any): Promise<any> {
+    try {
+      const admin = await this.adminModel.findById(user._id, ['email']);
+
+      return {
+        ...user,
+        ...admin.toObject(),
+      };
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
   async getPatients(): Promise<any> {
     try {
       const patients = await this.patientModel.aggregate([

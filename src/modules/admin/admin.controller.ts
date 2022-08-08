@@ -26,6 +26,12 @@ export class AdminController {
   }
 
   @UserRoles(UserRoleEnum.Admin)
+  @Get('me')
+  async getMe(@Req() req): Promise<any> {
+    return this.adminService.getMe(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Admin)
   @Get('patients')
   async getPatients(): Promise<any> {
     return this.adminService.getPatients();
