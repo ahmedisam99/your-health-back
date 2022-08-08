@@ -5,10 +5,12 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserRoleEnum } from 'constants/user-role.enum';
 import { DoctorService } from 'modules/doctor/doctor.service';
 import { PatientService } from 'modules/patient/patient.service';
+import { AdminService } from 'modules/admin/admin.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
+    private readonly adminService: AdminService,
     private readonly doctorService: DoctorService,
     private readonly patientService: PatientService,
   ) {
@@ -20,13 +22,28 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    if (payload.role === UserRoleEnum.Doctor) {
+    if (payload.role === UserRoleEnum.Admin) {
+      return this.validateAdmin(payload._id);
+    } else if (payload.role === UserRoleEnum.Doctor) {
       return this.validateDoctor(payload._id);
     } else if (payload.role === UserRoleEnum.Patient) {
       return this.validatePatient(payload._id);
     } else {
       throw new UnauthorizedException('غير مسموح لك بالدخول');
     }
+  }
+
+  private async validateAdmin(_id: string): Promise<any> {
+    const admin = await this.adminService.getForJwtValidation(_id);
+
+    if (!admin) {
+      throw new UnauthorizedException('غير مسموح لك بالدخول');
+    }
+
+    return {
+      _id: admin._id,
+      role: UserRoleEnum.Admin,
+    };
   }
 
   private async validateDoctor(_id: string): Promise<any> {
