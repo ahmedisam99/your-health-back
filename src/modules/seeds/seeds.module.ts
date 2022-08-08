@@ -2,15 +2,20 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommandModule } from 'nestjs-command';
 
-import { Comment, CommentSchema } from 'schemas/Comment';
+import { Admin, AdminSchema } from 'schemas/admin';
 import { Doctor, DoctorSchema } from 'schemas/doctor';
 import { Patient, PatientSchema } from 'schemas/patient';
+import { Comment, CommentSchema } from 'schemas/Comment';
 import { Post, PostSchema } from 'schemas/Post';
 import { SeedsService } from './seeds.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
+      {
+        name: Admin.name,
+        schema: AdminSchema,
+      },
       {
         name: Doctor.name,
         schema: DoctorSchema,

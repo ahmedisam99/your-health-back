@@ -13,6 +13,7 @@ import { AuthModule } from 'modules/auth/auth.module';
 import { SeedsModule } from 'modules/seeds/seeds.module';
 import { PatientModule } from 'modules/patient/patient.module';
 import { DoctorModule } from 'modules/doctor/doctor.module';
+import { AdminModule } from 'modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { DoctorModule } from 'modules/doctor/doctor.module';
     AuthModule,
     PatientModule,
     DoctorModule,
+    AdminModule,
 
     // seeds module
     SeedsModule,

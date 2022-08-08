@@ -8,14 +8,19 @@ import { Doctor } from 'schemas/doctor';
 import { Patient } from 'schemas/patient';
 import { Post } from 'schemas/Post';
 import { Comment } from 'schemas/Comment';
+import { Admin } from 'schemas/admin';
 import * as doctors from './data/doctors.json';
 import * as patients from './data/patients.json';
 import * as posts from './data/posts.json';
 import * as comments from './data/comments.json';
+import * as admins from './data/admins.json';
 
 @Injectable()
 export class SeedsService {
   constructor(
+    @InjectModel(Admin.name)
+    private adminModel: Model<Admin>,
+
     @InjectModel(Doctor.name)
     private doctorModel: Model<Doctor>,
 
@@ -40,12 +45,14 @@ export class SeedsService {
       await this.patientModel.deleteMany({});
       await this.postModel.deleteMany({});
       await this.commentModel.deleteMany({});
+      await this.adminModel.deleteMany({});
 
       console.log(chalk.cyan('[2] Seeding data...'));
       await this.doctorModel.create(doctors);
       await this.patientModel.create(patients);
       await this.postModel.create(posts);
       await this.commentModel.create(comments);
+      await this.adminModel.create(admins);
 
       console.log(chalk.green('[3] Done...'));
     } catch (error) {
