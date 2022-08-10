@@ -22,6 +22,7 @@ import { CreateCommentDto } from 'modules/doctor/dtos/create-comment.dto';
 import { CreateOrderDto } from './dtos/create-order.dto';
 import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
 import { UpdateProfileDto } from './dtos/update-profile.dto';
+import { UpdateMedicalProfileDto } from './dtos/update-medical-profile.dto';
 
 @Controller('patient')
 export class PatientController {
@@ -124,5 +125,23 @@ export class PatientController {
   @Get('doctors')
   async getDoctors(): Promise<any> {
     return this.patientService.getDoctors();
+  }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Get('medical-profile')
+  async getMedicalProfile(@Req() req): Promise<any> {
+    return this.patientService.getMedicalProfile(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Put('medical-profile')
+  async updateMedicalProfile(
+    @Req() req,
+    @Body() updateMedicalProfileDto: UpdateMedicalProfileDto,
+  ): Promise<any> {
+    return this.patientService.updateMedicalProfile(
+      req.user,
+      updateMedicalProfileDto,
+    );
   }
 }

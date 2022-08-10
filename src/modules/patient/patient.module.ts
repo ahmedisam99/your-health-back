@@ -10,6 +10,7 @@ import { PatientController } from './patient.controller';
 import { PatientService } from './patient.service';
 import { Order, OrderSchema } from 'schemas/Order';
 import { Doctor, DoctorSchema } from 'schemas/doctor';
+import { MedicalProfile, MedicalProfileSchema } from 'schemas/medical-profile';
 
 @Module({
   imports: [
@@ -38,6 +39,10 @@ import { Doctor, DoctorSchema } from 'schemas/doctor';
 
           return schema;
         },
+      },
+      {
+        name: MedicalProfile.name,
+        useFactory: () => MedicalProfileSchema,
       },
       {
         name: Doctor.name,

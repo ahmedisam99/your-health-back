@@ -19,6 +19,8 @@ import { Order } from 'schemas/Order';
 import { Doctor } from 'schemas/doctor';
 import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
 import { UpdateProfileDto } from './dtos/update-profile.dto';
+import { MedicalProfile } from 'schemas/medical-profile';
+import { UpdateMedicalProfileDto } from './dtos/update-medical-profile.dto';
 
 @Injectable()
 export class PatientService {
@@ -41,6 +43,9 @@ export class PatientService {
 
     @InjectModel(Order.name)
     private orderModel: Model<Order>,
+
+    @InjectModel(MedicalProfile.name)
+    private medicalProfileModel: Model<MedicalProfile>,
   ) {}
 
   async getForJwtValidation(_id: string): Promise<any> {
@@ -445,6 +450,53 @@ export class PatientService {
 
       if (order?.patientId?.toString() === user?._id?.toString()) {
         await order.remove();
+      }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async getMedicalProfile(user: any): Promise<any> {
+    try {
+      const patient = await this.patientModel.findById(user._id, [
+        '_id',
+        'medicalProfileId',
+      ]);
+
+      const medicalProfile = await this.medicalProfileModel.findById(
+        patient.medicalProfileId,
+      );
+
+      return medicalProfile || {};
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async updateMedicalProfile(
+    user: any,
+    updateMedicalProfileDto: UpdateMedicalProfileDto,
+  ): Promise<any> {
+    try {
+      const patient = await this.patientModel.findById(user._id, [
+        '_id',
+        'medicalProfileId',
+      ]);
+
+      if (patient.medicalProfileId) {
+        await this.medicalProfileModel.updateOne(
+          { _id: patient.medicalProfileId },
+          updateMedicalProfileDto,
+        );
+      } else {
+        const medicalProfile = await this.medicalProfileModel.create(
+          updateMedicalProfileDto,
+        );
+
+        patient.medicalProfileId = medicalProfile._id;
+        await patient.save();
       }
     } catch (error) {
       this.logger.error(error);
