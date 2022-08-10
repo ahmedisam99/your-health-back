@@ -18,6 +18,8 @@ import { CreateCommentDto } from './dtos/create-comment.dto';
 import { Order } from 'schemas/Order';
 import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
 import { UpdateProfileDto } from './dtos/update-profile.dto';
+import { Patient } from 'schemas/patient';
+import { MedicalProfile } from 'schemas/medical-profile';
 
 @Injectable()
 export class DoctorService {
@@ -37,6 +39,12 @@ export class DoctorService {
 
     @InjectModel(Order.name)
     private orderModel: Model<Order>,
+
+    @InjectModel(Patient.name)
+    private patientModel: Model<Patient>,
+
+    @InjectModel(MedicalProfile.name)
+    private medicalProfileModel: Model<MedicalProfile>,
   ) {}
 
   async getForJwtValidation(_id: string): Promise<any> {
@@ -747,6 +755,24 @@ export class DoctorService {
         numOfOrders: numOfOrders,
         numOfPatiens: numOfPatiens?.[0]?.numOfPatients || 0,
       };
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async getPatMedicalProfile(patientId): Promise<any> {
+    try {
+      const patient = await this.patientModel.findById(patientId, [
+        '_id',
+        'medicalProfileId',
+      ]);
+
+      const medicalProfile = await this.medicalProfileModel.findById(
+        patient.medicalProfileId,
+      );
+
+      return medicalProfile || {};
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');

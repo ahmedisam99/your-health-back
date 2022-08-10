@@ -158,4 +158,12 @@ export class DoctorController {
   async getReports(@Req() req): Promise<any> {
     return this.doctorService.getReports(req.user);
   }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Get('pat-medical-profile')
+  async getPatMedicalProfile(
+    @Query('patientId') patientId: string,
+  ): Promise<any> {
+    return this.doctorService.getPatMedicalProfile(patientId);
+  }
 }

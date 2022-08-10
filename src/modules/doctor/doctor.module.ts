@@ -9,6 +9,8 @@ import { hashPassword } from 'utils/hash-password.util';
 import { DoctorController } from './doctor.controller';
 import { DoctorService } from './doctor.service';
 import { Order, OrderSchema } from 'schemas/Order';
+import { Patient, PatientSchema } from 'schemas/patient';
+import { MedicalProfile, MedicalProfileSchema } from 'schemas/medical-profile';
 
 @Module({
   imports: [
@@ -37,6 +39,14 @@ import { Order, OrderSchema } from 'schemas/Order';
 
           return schema;
         },
+      },
+      {
+        name: MedicalProfile.name,
+        useFactory: () => MedicalProfileSchema,
+      },
+      {
+        name: Patient.name,
+        useFactory: () => PatientSchema,
       },
       {
         name: Post.name,
