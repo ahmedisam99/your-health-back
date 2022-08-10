@@ -9,6 +9,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Admin } from 'schemas/admin';
 import { Doctor } from 'schemas/doctor';
 import { Patient } from 'schemas/patient';
+import { Post } from 'schemas/Post';
+import { Comment } from 'schemas/Comment';
 
 @Injectable()
 export class AdminService {
@@ -23,6 +25,12 @@ export class AdminService {
 
     @InjectModel(Patient.name)
     private patientModel: Model<Patient>,
+
+    @InjectModel(Post.name)
+    private postModel: Model<Post>,
+
+    @InjectModel(Comment.name)
+    private commentModel: Model<Comment>,
   ) {}
 
   async getForJwtValidation(_id: string): Promise<any> {
@@ -83,6 +91,7 @@ export class AdminService {
   async deletePatient(patientId: string): Promise<any> {
     try {
       await this.patientModel.deleteOne({ _id: patientId });
+      await this.commentModel.deleteMany({ patientId: patientId });
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
@@ -115,6 +124,8 @@ export class AdminService {
   async deleteDoctor(doctorId: string): Promise<any> {
     try {
       await this.doctorModel.deleteOne({ _id: doctorId });
+      await this.postModel.deleteMany({ doctorId: doctorId });
+      await this.commentModel.deleteMany({ doctorId: doctorId });
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');

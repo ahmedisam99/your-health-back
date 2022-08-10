@@ -8,6 +8,8 @@ import { Admin, AdminSchema } from 'schemas/admin';
 import { hashPassword } from 'utils/hash-password.util';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
+import { Post, PostSchema } from 'schemas/Post';
+import { Comment, CommentSchema } from 'schemas/Comment';
 
 @Module({
   imports: [
@@ -33,6 +35,14 @@ import { AdminService } from './admin.service';
 
           return schema;
         },
+      },
+      {
+        name: Post.name,
+        useFactory: () => PostSchema,
+      },
+      {
+        name: Comment.name,
+        useFactory: () => CommentSchema,
       },
       {
         name: Doctor.name,
