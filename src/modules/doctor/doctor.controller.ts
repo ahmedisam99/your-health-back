@@ -18,6 +18,7 @@ import { UserRoles } from 'decorators/user-roles.decorator';
 import { DoctorLocalAuthGuard } from 'guards/doctor-local-auth.guard';
 import { DoctorService } from './doctor.service';
 import { CreateCommentDto } from './dtos/create-comment.dto';
+import { CreateComplaintDto } from './dtos/create-complaint.dto';
 import { CreateDoctorDto } from './dtos/create-doctor.dto';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
@@ -165,5 +166,20 @@ export class DoctorController {
     @Query('patientId') patientId: string,
   ): Promise<any> {
     return this.doctorService.getPatMedicalProfile(patientId);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Get('complaints')
+  async getComplaints(@Req() req): Promise<any> {
+    return this.doctorService.getComplaints(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Doctor)
+  @Post('complaints')
+  async createComplaint(
+    @Req() req,
+    @Body() createComplaintDto: CreateComplaintDto,
+  ): Promise<any> {
+    return this.doctorService.createComplaint(req.user, createComplaintDto);
   }
 }

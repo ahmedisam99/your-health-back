@@ -513,7 +513,10 @@ export class PatientService {
     try {
       const complaints = await this.complaintModel
         .find({
-          $or: [{ from: user._id }, { to: user._id }],
+          $and: [
+            { $or: [{ from: user._id }, { to: user._id }] },
+            { $or: [{ fromModel: 'Patient' }, { toModel: 'Patient' }] },
+          ],
         })
         .populate('from', { password: false })
         .populate('to', { password: false })

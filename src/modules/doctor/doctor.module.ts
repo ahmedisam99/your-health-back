@@ -11,6 +11,7 @@ import { DoctorService } from './doctor.service';
 import { Order, OrderSchema } from 'schemas/Order';
 import { Patient, PatientSchema } from 'schemas/patient';
 import { MedicalProfile, MedicalProfileSchema } from 'schemas/medical-profile';
+import { Complaint, ComplaintSchema } from 'schemas/complaint';
 
 @Module({
   imports: [
@@ -39,6 +40,10 @@ import { MedicalProfile, MedicalProfileSchema } from 'schemas/medical-profile';
 
           return schema;
         },
+      },
+      {
+        name: Complaint.name,
+        useFactory: () => ComplaintSchema,
       },
       {
         name: MedicalProfile.name,

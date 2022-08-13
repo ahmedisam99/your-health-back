@@ -20,6 +20,8 @@ import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
 import { UpdateProfileDto } from './dtos/update-profile.dto';
 import { Patient } from 'schemas/patient';
 import { MedicalProfile } from 'schemas/medical-profile';
+import { Complaint } from 'schemas/complaint';
+import { CreateComplaintDto } from './dtos/create-complaint.dto';
 
 @Injectable()
 export class DoctorService {
@@ -45,6 +47,9 @@ export class DoctorService {
 
     @InjectModel(MedicalProfile.name)
     private medicalProfileModel: Model<MedicalProfile>,
+
+    @InjectModel(Complaint.name)
+    private complaintModel: Model<Complaint>,
   ) {}
 
   async getForJwtValidation(_id: string): Promise<any> {
@@ -773,6 +778,44 @@ export class DoctorService {
       );
 
       return medicalProfile || {};
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async getComplaints(user: any): Promise<any> {
+    try {
+      const complaints = await this.complaintModel
+        .find({
+          $and: [
+            { $or: [{ from: user._id }, { to: user._id }] },
+            { $or: [{ fromModel: 'Doctor' }, { toModel: 'Doctor' }] },
+          ],
+        })
+        .populate('from', { password: false })
+        .populate('to', { password: false })
+        .sort({ createdAt: -1 });
+
+      return complaints;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async createComplaint(
+    user: any,
+    createComplaintDto: CreateComplaintDto,
+  ): Promise<any> {
+    try {
+      await this.complaintModel.create({
+        ...createComplaintDto,
+        from: user._id,
+        fromModel: 'Doctor',
+        to: '6259f7dc78e6ee2c49611c00',
+        toModel: 'Admin',
+      });
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');
