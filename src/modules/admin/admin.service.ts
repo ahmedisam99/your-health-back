@@ -11,6 +11,8 @@ import { Doctor } from 'schemas/doctor';
 import { Patient } from 'schemas/patient';
 import { Post } from 'schemas/Post';
 import { Comment } from 'schemas/Comment';
+import { CreateComplaintDto } from './create-complaint.dto';
+import { Complaint } from 'schemas/complaint';
 
 @Injectable()
 export class AdminService {
@@ -31,6 +33,9 @@ export class AdminService {
 
     @InjectModel(Comment.name)
     private commentModel: Model<Comment>,
+
+    @InjectModel(Complaint.name)
+    private complaintModel: Model<Complaint>,
   ) {}
 
   async getForJwtValidation(_id: string): Promise<any> {
@@ -126,6 +131,42 @@ export class AdminService {
       await this.doctorModel.deleteOne({ _id: doctorId });
       await this.postModel.deleteMany({ doctorId: doctorId });
       await this.commentModel.deleteMany({ doctorId: doctorId });
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async getComplaints(user: any): Promise<any> {
+    try {
+      const complaints = await this.complaintModel
+        .find({
+          $and: [
+            { $or: [{ from: user._id }, { to: user._id }] },
+            { $or: [{ fromModel: 'Admin' }, { toModel: 'Admin' }] },
+          ],
+        })
+        .populate('from', { password: false })
+        .populate('to', { password: false })
+        .sort({ createdAt: -1 });
+
+      return complaints;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('حدث خطأ ما');
+    }
+  }
+
+  async createComplaint(
+    user: any,
+    createComplaintDto: CreateComplaintDto,
+  ): Promise<any> {
+    try {
+      await this.complaintModel.create({
+        ...createComplaintDto,
+        from: user._id,
+        fromModel: 'Admin',
+      });
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('حدث خطأ ما');

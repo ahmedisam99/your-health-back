@@ -10,6 +10,7 @@ import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { Post, PostSchema } from 'schemas/Post';
 import { Comment, CommentSchema } from 'schemas/Comment';
+import { Complaint, ComplaintSchema } from 'schemas/complaint';
 
 @Module({
   imports: [
@@ -35,6 +36,10 @@ import { Comment, CommentSchema } from 'schemas/Comment';
 
           return schema;
         },
+      },
+      {
+        name: Complaint.name,
+        useFactory: () => ComplaintSchema,
       },
       {
         name: Post.name,

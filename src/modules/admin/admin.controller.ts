@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -13,6 +14,7 @@ import { IsPublicRoute } from 'decorators/is-public.decorator';
 import { UserRoles } from 'decorators/user-roles.decorator';
 import { AdminLocalAuthGuard } from 'guards/admin-local-auth.guard';
 import { AdminService } from './admin.service';
+import { CreateComplaintDto } from './create-complaint.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -53,5 +55,20 @@ export class AdminController {
   @Delete('doctors')
   async deleteDoctor(@Query('doctorId') doctorId: string): Promise<any> {
     return this.adminService.deleteDoctor(doctorId);
+  }
+
+  @UserRoles(UserRoleEnum.Admin)
+  @Get('complaints')
+  async getComplaints(@Req() req): Promise<any> {
+    return this.adminService.getComplaints(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Admin)
+  @Post('complaints')
+  async createComplaint(
+    @Req() req,
+    @Body() createComplaintDto: CreateComplaintDto,
+  ): Promise<any> {
+    return this.adminService.createComplaint(req.user, createComplaintDto);
   }
 }
