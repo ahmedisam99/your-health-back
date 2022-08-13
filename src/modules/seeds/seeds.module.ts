@@ -8,10 +8,15 @@ import { Patient, PatientSchema } from 'schemas/patient';
 import { Comment, CommentSchema } from 'schemas/Comment';
 import { Post, PostSchema } from 'schemas/Post';
 import { SeedsService } from './seeds.service';
+import { Complaint, ComplaintSchema } from 'schemas/complaint';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
+      {
+        name: Complaint.name,
+        schema: ComplaintSchema,
+      },
       {
         name: Admin.name,
         schema: AdminSchema,

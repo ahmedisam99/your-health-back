@@ -23,6 +23,7 @@ import { CreateOrderDto } from './dtos/create-order.dto';
 import { UpdateProfilePictureDto } from './dtos/update-profile-picture.dto';
 import { UpdateProfileDto } from './dtos/update-profile.dto';
 import { UpdateMedicalProfileDto } from './dtos/update-medical-profile.dto';
+import { CreateComplaintDto } from './dtos/create-complaint.dto';
 
 @Controller('patient')
 export class PatientController {
@@ -143,5 +144,20 @@ export class PatientController {
       req.user,
       updateMedicalProfileDto,
     );
+  }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Get('complaints')
+  async getComplaints(@Req() req): Promise<any> {
+    return this.patientService.getComplaints(req.user);
+  }
+
+  @UserRoles(UserRoleEnum.Patient)
+  @Post('complaints')
+  async createComplaint(
+    @Req() req,
+    @Body() createComplaintDto: CreateComplaintDto,
+  ): Promise<any> {
+    return this.patientService.createComplaint(req.user, createComplaintDto);
   }
 }

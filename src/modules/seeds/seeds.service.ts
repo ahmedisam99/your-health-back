@@ -9,11 +9,13 @@ import { Patient } from 'schemas/patient';
 import { Post } from 'schemas/Post';
 import { Comment } from 'schemas/Comment';
 import { Admin } from 'schemas/admin';
+import { Complaint } from 'schemas/complaint';
 import * as doctors from './data/doctors.json';
 import * as patients from './data/patients.json';
 import * as posts from './data/posts.json';
 import * as comments from './data/comments.json';
 import * as admins from './data/admins.json';
+import * as complaints from './data/complaints.json';
 
 @Injectable()
 export class SeedsService {
@@ -32,6 +34,9 @@ export class SeedsService {
 
     @InjectModel(Comment.name)
     private commentModel: Model<Comment>,
+
+    @InjectModel(Complaint.name)
+    private complaintModel: Model<Complaint>,
   ) {}
 
   @Command({
@@ -46,6 +51,7 @@ export class SeedsService {
       await this.postModel.deleteMany({});
       await this.commentModel.deleteMany({});
       await this.adminModel.deleteMany({});
+      await this.complaintModel.deleteMany({});
 
       console.log(chalk.cyan('[2] Seeding data...'));
       await this.doctorModel.create(doctors);
@@ -53,6 +59,7 @@ export class SeedsService {
       await this.postModel.create(posts);
       await this.commentModel.create(comments);
       await this.adminModel.create(admins);
+      await this.complaintModel.create(complaints);
 
       console.log(chalk.green('[3] Done...'));
     } catch (error) {

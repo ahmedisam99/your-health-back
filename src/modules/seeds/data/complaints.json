@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "6259f7dc78e6ee2c49611c00",
+    "from": "6259f7dc78e6ee2c49611c00",
+    "fromModel": "Patient",
+    "to": "6259f7dc78e6ee2c49611c00",
+    "toModel": "Admin",
+    "content": "Lorem Lorem Lorem"
+  },
+  {
+    "_id": "6259f7dc78e6ee2c49611c01",
+    "from": "6259f7dc78e6ee2c49611c00",
+    "fromModel": "Admin",
+    "to": "6259f7dc78e6ee2c49611c00",
+    "toModel": "Patient",
+    "content": "Lorem Lorem Lorem"
+  }
+]
