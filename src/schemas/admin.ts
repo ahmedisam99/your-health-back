@@ -17,6 +17,12 @@ export class Admin extends Document {
   })
   email: string;
 
+  @Prop({ type: String, required: true, trim: true })
+  name: string;
+
+  @Prop({ type: String, default: '', trim: true })
+  profilePicture: string;
+
   @Prop({ type: String, required: true })
   password: string;
 }
