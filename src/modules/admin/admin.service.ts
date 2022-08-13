@@ -148,7 +148,7 @@ export class AdminService {
         })
         .populate('from', { password: false })
         .populate('to', { password: false })
-        .sort({ createdAt: -1 });
+        .sort({ createdAt: 1 });
 
       return complaints;
     } catch (error) {
